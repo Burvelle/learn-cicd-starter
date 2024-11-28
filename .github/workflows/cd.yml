@@ -19,4 +19,8 @@ jobs:
           go-version: "1.23.0"
 
       - name: Build application
-        run: ./scripts/buildprod.sh     
+        run: ./scripts/buildprod.sh
+
+      - name: Push to Google Artifact Registry
+        run: gcloud builds submit --tag australia-southeast1-docker.pkg.dev/notely-443101/notely-ar-repo/burvelle/notely:latest .
+    
