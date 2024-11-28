@@ -14,17 +14,6 @@ jobs:
       id-token: 'write'
 
     steps:
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-  
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-  
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
       - name: Check out code
         uses: actions/checkout@v4
 
@@ -35,6 +24,17 @@ jobs:
 
       - name: Build application
         run: ./scripts/buildprod.sh
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+  
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+  
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
       - name: Push to Google Artifact Registry
         run: gcloud builds submit --tag australia-southeast1-docker.pkg.dev/notely-443101/notely-ar-repo/burvelle/notely:latest .
